@@ -10,22 +10,15 @@ import android.widget.TextView;
 
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.data.Recipe;
-import com.udacity.bakingapp.fragments.RecipeMasterGridFragment;
 
 import java.util.List;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder>
-    implements RecipeMasterGridFragment.OnRecipeSelectedListener {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder> {
 
     private static final String TAG = RecipeAdapter.class.getSimpleName();
     private List<Recipe> mRecipeData;
     private final RecipeAdapterOnClickHandler mClickHandler;
     private Context mContext;
-
-    @Override
-    public void onRecipeSelected(Recipe recipe) {
-
-    }
 
     public interface RecipeAdapterOnClickHandler {
         void onClick(Recipe recipe);

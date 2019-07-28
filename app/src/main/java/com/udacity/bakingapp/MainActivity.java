@@ -28,7 +28,8 @@ import java.util.List;
 
 import static com.udacity.bakingapp.utils.NetworkUtils.isOnline;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements RecipeMasterGridFragment.OnRecipeSelectedListener{
 
     private RecyclerView mRecyclerView;
     private RecipeAdapter mRecipeAdapter;
@@ -89,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            initLoader();
 //        }
+    }
+
+    @Override
+    public void onRecipeSelected(Recipe recipe) {
+        Toast.makeText(this, recipe.toString(), Toast.LENGTH_SHORT).show();
     }
 
 
