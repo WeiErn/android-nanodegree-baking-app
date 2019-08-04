@@ -60,8 +60,8 @@ public class Recipe implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeList(ingredientList);
-        dest.writeList(stepList);
+        dest.writeTypedList(ingredientList);
+        dest.writeTypedList(stepList);
         dest.writeInt(servings);
         dest.writeString(image);
     }
