@@ -44,4 +44,16 @@ public class Ingredient implements Parcelable {
         dest.writeString(measurement);
         dest.writeString(ingredient);
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getMeasurement() {
+        return measurement;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
 }

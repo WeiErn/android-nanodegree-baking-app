@@ -13,18 +13,17 @@ import com.udacity.bakingapp.data.Recipe;
 
 import java.util.List;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder> {
+public class RecipeMasterGridAdapter extends RecyclerView.Adapter<RecipeMasterGridAdapter.RecipeAdapterViewHolder> {
 
-    private static final String TAG = RecipeAdapter.class.getSimpleName();
+    private static final String TAG = RecipeMasterGridAdapter.class.getSimpleName();
     private List<Recipe> mRecipeData;
     private final RecipeAdapterOnClickHandler mClickHandler;
-    private Context mContext;
 
     public interface RecipeAdapterOnClickHandler {
-        void onClick(Recipe recipe);
+        void onRecipeClick(Recipe recipe);
     }
 
-    public RecipeAdapter(RecipeAdapterOnClickHandler clickHandler) {
+    public RecipeMasterGridAdapter(RecipeAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
@@ -41,7 +40,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            mClickHandler.onClick(mRecipeData.get(adapterPosition));
+            mClickHandler.onRecipeClick(mRecipeData.get(adapterPosition));
         }
     }
 
@@ -57,7 +56,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeAdapter.RecipeAdapterViewHolder recipeAdapterViewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecipeMasterGridAdapter.RecipeAdapterViewHolder recipeAdapterViewHolder, int position) {
         Recipe recipeSelected = mRecipeData.get(position);
         recipeAdapterViewHolder.mRecipeName.setText(recipeSelected.getName());
     }

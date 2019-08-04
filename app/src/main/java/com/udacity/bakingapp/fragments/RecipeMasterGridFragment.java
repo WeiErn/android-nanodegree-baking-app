@@ -2,7 +2,7 @@ package com.udacity.bakingapp.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,11 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.udacity.bakingapp.MainActivity;
 import com.udacity.bakingapp.R;
-import com.udacity.bakingapp.adapters.RecipeAdapter;
+import com.udacity.bakingapp.RecipeActivity;
+import com.udacity.bakingapp.adapters.RecipeMasterGridAdapter;
 import com.udacity.bakingapp.data.Recipe;
 import com.udacity.bakingapp.utils.JsonUtils;
 import com.udacity.bakingapp.utils.NetworkUtils;
@@ -33,75 +32,34 @@ import static com.udacity.bakingapp.utils.NetworkUtils.isOnline;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RecipeMasterGridFragment.OnRecipeSelectedListener} interface
- * to handle interaction events.
  * Use the {@link RecipeMasterGridFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class RecipeMasterGridFragment extends Fragment implements
-        RecipeAdapter.RecipeAdapterOnClickHandler,
+        RecipeMasterGridAdapter.RecipeAdapterOnClickHandler,
         LoaderManager.LoaderCallbacks<List<Recipe>> {
 
     private RecyclerView mRecyclerView;
-    private RecipeAdapter mRecipeAdapter;
+    private RecipeMasterGridAdapter mRecipeMasterGridAdapter;
     private List<Recipe> mRecipes;
     private GridLayoutManager mLayoutManager;
     private TextView mErrorMessageDisplay;
     private TextView mNoInternetMessageDisplay;
     private ProgressBar mLoadingIndicator;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_RECIPE_LAYOUT_ID = "recipe_layout";
 
     private int mRecipeLayoutId;
 
     private static final int MOVIE_LOADER_ID = 0;
 
-    private OnRecipeSelectedListener mCallback;
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnRecipeSelectedListener {
-        // TODO: Update argument type and name
-        void onRecipeSelected(Recipe recipe);
-    }
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnRecipeSelectedListener) {
-            mCallback = (OnRecipeSelectedListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnRecipeSelectedListener");
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onRecipeSelected(Recipe recipe) {
-        if (mCallback != null) {
-            mCallback.onRecipeSelected(recipe);
-        }
-    }
-
-    @Override
-    public void onClick(Recipe recipe) {
-//        Context context = this;
-//        Class destinationClass = RecipeActivity.class;
-//        Intent intentToStartRecipeActivity = new Intent(context, destinationClass);
-//        intentToStartRecipeActivity.putExtra("recipe", recipe);
-//        startActivity(intentToStartRecipeActivity);
-        Toast.makeText(getActivity(), "You've clicked on a recipe", Toast.LENGTH_SHORT).show();
+    public void onRecipeClick(Recipe recipe) {
+        Context context = getActivity();
+        Class destinationClass = RecipeActivity.class;
+        Intent intentToStartRecipeActivity = new Intent(context, destinationClass);
+        intentToStartRecipeActivity.putExtra(getString(R.string.intent_extra_recipe), recipe);
+        startActivity(intentToStartRecipeActivity);
     }
 
     public RecipeMasterGridFragment() {
@@ -150,8 +108,8 @@ public class RecipeMasterGridFragment extends Fragment implements
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mRecipeAdapter = new RecipeAdapter(this);
-        mRecyclerView.setAdapter(mRecipeAdapter);
+        mRecipeMasterGridAdapter = new RecipeMasterGridAdapter(this);
+        mRecyclerView.setAdapter(mRecipeMasterGridAdapter);
 
         if (!isOnline(getActivity())) {
             showNoInternetConnectionMessage();
@@ -165,7 +123,6 @@ public class RecipeMasterGridFragment extends Fragment implements
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallback = null;
     }
 
     private void initLoader() {
@@ -221,7 +178,7 @@ public class RecipeMasterGridFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Recipe>> loader, List<Recipe> recipes) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mRecipes = recipes;
-        mRecipeAdapter.setRecipeData(recipes);
+        mRecipeMasterGridAdapter.setRecipeData(recipes);
         if (!isOnline(getActivity())) {
             showNoInternetConnectionMessage();
         } else if (recipes == null) {
@@ -237,7 +194,7 @@ public class RecipeMasterGridFragment extends Fragment implements
     }
 
     private void invalidateData() {
-        mRecipeAdapter.setRecipeData(null);
+        mRecipeMasterGridAdapter.setRecipeData(null);
     }
 
     private void showRecipesDataView() {
