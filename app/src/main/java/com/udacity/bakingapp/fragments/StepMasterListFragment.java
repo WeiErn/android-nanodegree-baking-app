@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.bakingapp.R;
+import com.udacity.bakingapp.StepActivity;
 import com.udacity.bakingapp.adapters.StepMasterListAdapter;
 import com.udacity.bakingapp.data.Step;
 
@@ -98,7 +99,11 @@ public class StepMasterListFragment extends Fragment implements
 
     @Override
     public void onStepClick(Step step) {
-
+        Context context = getActivity();
+        Class destinationClass = StepActivity.class;
+        Intent intentToStartStepActivity = new Intent(context, destinationClass);
+        intentToStartStepActivity.putExtra(getString(R.string.intent_extra_step), step);
+        startActivity(intentToStartStepActivity);
     }
 
     public void setStepAdapterData(List<Step> stepData) {

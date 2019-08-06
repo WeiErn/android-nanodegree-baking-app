@@ -31,7 +31,7 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
         mClickHandler = clickHandler;
     }
 
-    public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class StepAdapterViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mStepName;
         public Step mStep;
@@ -40,11 +40,6 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
             super(view);
             mView = view;
             mStepName = view.findViewById(R.id.step_name);
-        }
-
-        @Override
-        public void onClick(View view) {
-
         }
     }
 

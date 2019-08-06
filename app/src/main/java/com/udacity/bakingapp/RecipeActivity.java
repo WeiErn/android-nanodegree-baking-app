@@ -29,6 +29,5 @@ public class RecipeActivity extends AppCompatActivity {
             StepMasterListFragment stepMasterListFragment = (StepMasterListFragment) fragmentManager.findFragmentById(R.id.step_master_list_fragment);
             stepMasterListFragment.setStepAdapterData(stepList);
         }
-
     }
 }
