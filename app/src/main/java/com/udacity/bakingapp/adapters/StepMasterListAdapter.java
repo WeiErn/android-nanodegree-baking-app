@@ -52,7 +52,7 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
 
     @Override
     public void onBindViewHolder(final StepMasterListAdapter.StepAdapterViewHolder stepAdapterViewHolder, int position) {
-        Step stepSelected = mStepData.get(position);
+        final Step stepSelected = mStepData.get(position);
         stepAdapterViewHolder.mStepName.setText(stepSelected.getShortDescription());
 
         stepAdapterViewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,7 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
                 if (null != mClickHandler) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mClickHandler.onStepClick(stepAdapterViewHolder.mStep);
+                    mClickHandler.onStepClick(stepSelected);
                 }
             }
         });

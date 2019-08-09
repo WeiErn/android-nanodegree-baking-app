@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".StepActivity">
 
+    <fragment
+        android:id="@+id/step_video_player_fragment"
+        android:name="com.udacity.bakingapp.fragments.MediaPlayerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
