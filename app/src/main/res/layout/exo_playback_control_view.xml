@@ -52,7 +52,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:includeFontPadding="false"
-            android:textColor="#FFFFFFFF"/>
+            android:textColor="#000000"/>
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
             android:id="@id/exo_progress"
@@ -63,7 +63,7 @@
             app:played_color="@color/colorAccent"
             app:unplayed_color="#FFFFFFFF"
             app:buffered_color="#FFFFFFFF"
-            app:scrubber_color="#FF5D29C1"/>
+            app:scrubber_color="#000000"/>
 
         <TextView android:id="@id/exo_duration"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:includeFontPadding="false"
-            android:textColor="#FFFFFFFF"/>
+            android:textColor="#000000"/>
 
     </LinearLayout>
 

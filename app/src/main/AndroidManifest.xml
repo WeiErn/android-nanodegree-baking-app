@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".StepActivity"></activity>
+        <activity android:name=".StepActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
+        </activity>
         <activity android:name=".RecipeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
