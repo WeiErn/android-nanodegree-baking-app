@@ -34,6 +34,8 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.udacity.bakingapp.R;
 
+import butterknife.BindView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -162,7 +164,10 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_media_player, container, false);
+        View view = inflater.inflate(R.layout.fragment_media_player, container, false);
+        mPlayerView = view.findViewById(R.id.player_view);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
