@@ -3,14 +3,20 @@ package com.udacity.bakingapp.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -28,6 +34,7 @@ import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
@@ -61,6 +68,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     //    private OnFragmentInteractionListener mListener;
     private int mCurrentWindow;
     private long mPlaybackPosition;
+    private int mActionBarSize;
 
     public MediaPlayerFragment() {
         // Required empty public constructor
@@ -107,6 +115,10 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        handleDeviceOrientation();
+    }
+
+    public void handleDeviceOrientation() {
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             hideSystemUiFullScreen();
@@ -117,21 +129,18 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @SuppressLint("InlinedApi")
     private void hideSystemUiFullScreen() {
-        mPlayerView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+        mPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
     }
 
     @SuppressLint("InlinedApi")
     private void showSystemUi() {
-        mPlayerView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+        mPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
     }
 
     /**
@@ -153,6 +162,11 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
@@ -276,6 +290,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 //        void onFragmentInteraction(Uri uri);
 //    }
     private void initializePlayer() {
+
         if (mPlayer == null) {
             mPlayer = ExoPlayerFactory.newSimpleInstance(
                     new DefaultRenderersFactory(getContext()),
@@ -286,6 +301,9 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
             mPlayer.setPlayWhenReady(mPlayWhenReady);
             mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
         }
+
+        handleDeviceOrientation();
+
         MediaSource mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
         mPlayer.prepare(mediaSource, true, false);
     }
