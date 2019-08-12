@@ -20,9 +20,11 @@ public class StepActivity extends AppCompatActivity {
             Step step = intent.getExtras().getParcelable(getString(R.string.intent_extra_step));
             String videoUrl = step.getVideoUrl();
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            MediaPlayerFragment mediaPlayerFragment = (MediaPlayerFragment) fragmentManager.findFragmentById(R.id.step_video_player_fragment);
-            mediaPlayerFragment.setVideoUriString(videoUrl);
+            if (!videoUrl.isEmpty()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                MediaPlayerFragment mediaPlayerFragment = (MediaPlayerFragment) fragmentManager.findFragmentById(R.id.step_video_player_fragment);
+                mediaPlayerFragment.setVideoUriString(videoUrl);
+            }
         }
     }
 }

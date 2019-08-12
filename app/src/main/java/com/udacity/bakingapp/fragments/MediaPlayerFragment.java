@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -129,7 +130,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @SuppressLint("InlinedApi")
     private void hideSystemUiFullScreen() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
         mPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
@@ -137,7 +138,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @SuppressLint("InlinedApi")
     private void showSystemUi() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
         mPlayer.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
@@ -163,7 +164,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
+                new int[]{android.R.attr.actionBarSize});
         mActionBarSize = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
 
@@ -304,7 +305,12 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
         handleDeviceOrientation();
 
-        MediaSource mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
+        MediaSource mediaSource;
+        if (mVideoUriString != null) {
+            mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
+        } else {
+            mediaSource = new ConcatenatingMediaSource();
+        }
         mPlayer.prepare(mediaSource, true, false);
     }
 

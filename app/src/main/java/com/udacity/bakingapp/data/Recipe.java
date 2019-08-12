@@ -1,15 +1,28 @@
 package com.udacity.bakingapp.data;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.udacity.bakingapp.database.IngredientListConverter;
+import com.udacity.bakingapp.database.StepListConverter;
+
 import java.util.List;
 
+@Entity(tableName = "recipe")
 public class Recipe implements Parcelable {
 
+    @PrimaryKey
     private int id;
     private String name;
+    @TypeConverters(IngredientListConverter.class)
+    @ColumnInfo(name="ingredient_list")
     private List<Ingredient> ingredientList;
+    @TypeConverters(StepListConverter.class)
+    @ColumnInfo(name = "step_list")
     private List<Step> stepList;
     private int servings;
     private String image;
