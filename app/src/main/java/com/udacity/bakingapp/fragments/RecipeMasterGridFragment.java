@@ -1,6 +1,8 @@
 package com.udacity.bakingapp.fragments;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.RecipeActivity;
 import com.udacity.bakingapp.adapters.RecipeMasterGridAdapter;
 import com.udacity.bakingapp.data.Recipe;
+import com.udacity.bakingapp.database.AppDatabase;
 import com.udacity.bakingapp.utils.JsonUtils;
 import com.udacity.bakingapp.utils.NetworkUtils;
 
@@ -52,6 +55,7 @@ public class RecipeMasterGridFragment extends Fragment implements
     private int mRecipeLayoutId;
 
     private static final int MOVIE_LOADER_ID = 0;
+    private AppDatabase mDb;
 
     @Override
     public void onRecipeClick(Recipe recipe) {
@@ -111,6 +115,9 @@ public class RecipeMasterGridFragment extends Fragment implements
         mRecipeMasterGridAdapter = new RecipeMasterGridAdapter(this);
         mRecyclerView.setAdapter(mRecipeMasterGridAdapter);
 
+        mDb = AppDatabase.getInstance(getActivity());
+        setupRecipes();
+
         if (!isOnline(getActivity())) {
             showNoInternetConnectionMessage();
         } else {
@@ -118,6 +125,17 @@ public class RecipeMasterGridFragment extends Fragment implements
         }
 
         return view;
+    }
+
+    private void setupRecipes() {
+        final LiveData<List<Recipe>> recipes = mDb.recipeListDao().loadAllRecipes();
+        recipes.observe(this, new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(@Nullable List<Recipe> recipes) {
+                mRecipes = recipes;
+                mRecipeMasterGridAdapter.setRecipeData(mRecipes);
+            }
+        });
     }
 
     @Override
