@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Baking App</string>
     <string name="error_message">An error has occurred.</string>
     <string name="no_internet_connection_message">No internet connection.</string>
@@ -11,4 +11,8 @@
     <string name="add_widget">Add widget</string>
     <string name="shared_prefs_file">com.udacity.bakingapp</string>
     <string name="count_widget_key">count</string>
+
+    <string name="appwidget_text_format"><xliff:g id="prefix">%1$s</xliff:g>: <xliff:g id="time">%2$s</xliff:g></string>
+    <string name="appwidget_configure_instructions">This text will be shown before the date in our example widget.</string>
+    <string name="appwidget_prefix_default">Oh hai</string>
 </resources>
