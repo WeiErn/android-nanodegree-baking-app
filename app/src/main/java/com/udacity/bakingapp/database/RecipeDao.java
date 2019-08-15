@@ -13,7 +13,7 @@ import com.udacity.bakingapp.data.Recipe;
 import java.util.List;
 
 @Dao
-public interface RecipeListDao {
+public interface RecipeDao {
 
     @Query("SELECT * FROM recipe ORDER BY id")
     LiveData<List<Recipe>> loadAllRecipes();

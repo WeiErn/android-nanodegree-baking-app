@@ -15,4 +15,5 @@
     <string name="appwidget_text_format"><xliff:g id="prefix">%1$s</xliff:g>: <xliff:g id="time">%2$s</xliff:g></string>
     <string name="appwidget_configure_instructions">This text will be shown before the date in our example widget.</string>
     <string name="appwidget_prefix_default">Oh hai</string>
+    <string name="recipe_endpoint">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
 </resources>

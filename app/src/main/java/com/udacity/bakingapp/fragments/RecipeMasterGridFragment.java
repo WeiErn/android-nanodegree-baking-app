@@ -91,6 +91,8 @@ public class RecipeMasterGridFragment extends Fragment implements
         if (getArguments() != null) {
             mRecipeLayoutId = getArguments().getInt(ARG_RECIPE_LAYOUT_ID);
         }
+        mDb = AppDatabase.getInstance(getActivity());
+        setupRecipes();
     }
 
     @Override
@@ -115,8 +117,6 @@ public class RecipeMasterGridFragment extends Fragment implements
         mRecipeMasterGridAdapter = new RecipeMasterGridAdapter(this);
         mRecyclerView.setAdapter(mRecipeMasterGridAdapter);
 
-        mDb = AppDatabase.getInstance(getActivity());
-        setupRecipes();
 
         if (!isOnline(getActivity())) {
             showNoInternetConnectionMessage();
@@ -128,7 +128,7 @@ public class RecipeMasterGridFragment extends Fragment implements
     }
 
     private void setupRecipes() {
-        final LiveData<List<Recipe>> recipes = mDb.recipeListDao().loadAllRecipes();
+        final LiveData<List<Recipe>> recipes = mDb.recipeDao().loadAllRecipes();
         recipes.observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> recipes) {
@@ -170,7 +170,7 @@ public class RecipeMasterGridFragment extends Fragment implements
             @Nullable
             @Override
             public List<Recipe> loadInBackground() {
-                URL recipesRequestUrl = NetworkUtils.buildUrl("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+                URL recipesRequestUrl = NetworkUtils.buildUrl(getString(R.string.recipe_endpoint));
                 try {
                     String jsonRecipesResponse = NetworkUtils
                             .getResponseFromHttpUrl(recipesRequestUrl);

@@ -8,5 +8,5 @@
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
-    android:configure="com.udacity.bakingapp.widgets.RecipeWidgetConfigure">
+    >
 </appwidget-provider>

@@ -29,5 +29,5 @@ public abstract class AppDatabase extends RoomDatabase {
         return sInstance;
     }
 
-    public abstract RecipeListDao recipeListDao();
+    public abstract RecipeDao recipeDao();
 }
