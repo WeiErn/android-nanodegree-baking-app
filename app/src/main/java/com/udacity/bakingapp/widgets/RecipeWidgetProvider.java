@@ -38,60 +38,15 @@ import static android.support.constraint.Constraints.TAG;
  */
 public class RecipeWidgetProvider extends AppWidgetProvider implements LifecycleOwner {
 
-    private AppDatabase mDb;
-    private List<Recipe> mRecipes;
-
-//    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-//                                int appWidgetId) {
-////        Log.d(TAG, "updateAppWidget appWidgetId=" + appWidgetId + " titlePrefix=");
-//        // Getting the string this way allows the string to be localized.  The format
-//        // string is filled in using java.util.Formatter-style format strings.
-////        CharSequence text = context.getString(R.string.appwidget_text_format,
-////                RecipeWidgetConfigure.loadTitlePref(context, appWidgetId),
-////                "0x" + Long.toHexString(SystemClock.elapsedRealtime()));
-//
-//        // Get the count from prefs.
-////        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
-////        int count = sharedPreferences.getInt(context.getString(R.string.count_widget_key) + appWidgetId, 0);
-////        count++;
-//
-//        // Create an Intent to launch MainActivity when clicked
-//        Intent intent = new Intent(context, MainActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-//
-////        CharSequence widgetText = context.getString(R.string.appwidget_text);
-//        // Construct the RemoteViews object
-//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-////        views.setTextViewText(R.id.appwidget_text, text);
-//
-//        new DownloadRecipes(views).execute();
-//
-//        // Save count back to prefs.
-////        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-////        prefEditor.putInt(context.getString(R.string.count_widget_key) + appWidgetId, count);
-////        prefEditor.apply();
-//
-//        // Widgets allow click handlers to only launch pending intents
-//        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-//
-//        // Instruct the widget manager to update the widget
-//        appWidgetManager.updateAppWidget(appWidgetId, views);
-//    }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        // There may be multiple widgets active, so update all of them
-//        for (int appWidgetId : appWidgetIds) {
-//            updateAppWidget(context, appWidgetManager, appWidgetId);
-//        }
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             int appWidgetId = appWidgetIds[i];
-//            String titlePrefix = RecipeWidgetConfigure.loadTitlePref(context, appWidgetId);
-//            updateAppWidget(context, appWidgetManager, appWidgetId);
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-            new DownloadRecipes(context, views, appWidgetId, appWidgetManager).execute();
+
+//            https://stackoverflow.com/questions/17380168/update-android-widget-using-async-task-with-an-image-from-the-internet
+            new DownloadRecipes(context, appWidgetId, appWidgetManager).execute();
         }
     }
 

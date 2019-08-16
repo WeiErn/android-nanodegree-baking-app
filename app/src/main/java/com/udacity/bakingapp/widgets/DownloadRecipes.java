@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
@@ -18,21 +17,19 @@ import java.net.URL;
 import java.util.List;
 
 public class DownloadRecipes extends AsyncTask<Void, Void, List<Recipe>> {
-    private RemoteViews mViews;
     private int mWidgetId;
     private AppWidgetManager mWidgetManager;
     private Context mContext;
 
-    public DownloadRecipes(Context context, RemoteViews views, int appWidgetID, AppWidgetManager appWidgetManager) {
+    public DownloadRecipes(Context context, int appWidgetID, AppWidgetManager appWidgetManager) {
         this.mContext = context;
-        this.mViews = views;
         this.mWidgetId = appWidgetID;
         this.mWidgetManager = appWidgetManager;
     }
 
     @Override
     protected List<Recipe> doInBackground(Void... voids) {
-        URL recipesRequestUrl = NetworkUtils.buildUrl(Resources.getSystem().getString(R.string.recipe_endpoint));
+        URL recipesRequestUrl = NetworkUtils.buildUrl("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
         try {
             String jsonRecipesResponse = NetworkUtils
                     .getResponseFromHttpUrl(recipesRequestUrl);
@@ -49,17 +46,25 @@ public class DownloadRecipes extends AsyncTask<Void, Void, List<Recipe>> {
 
     @Override
     protected void onPostExecute(List<Recipe> recipeList) {
-        String result = null;
-        for (Recipe recipe : recipeList) {
-            result.concat(recipe.getName() + " ");
-        }
+//        StringBuilder result = new StringBuilder();
+//        for (Recipe recipe : recipeList) {
+//            String recipeName = recipe.getName();
+//            result.append(recipeName);
+//            result.append(" ");
+//        }
         Intent intent = new Intent(mContext, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
-        mViews.setTextViewText(R.id.appwidget_text, result);
+//        mViews.setTextViewText(R.id.appwidget_text, result);
+//        mViews.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
-        mViews.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-
-        mWidgetManager.updateAppWidget(mWidgetId, mViews);
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_provider);
+        for (Recipe recipe : recipeList) {
+            RemoteViews recipeView = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_list_item);
+            recipeView.setTextViewText(R.id.recipe_name, recipe.getName());
+            views.addView(R.id.widget_recipe_list, recipeView);
+        }
+        views.setOnClickPendingIntent(R.id.widget_recipe_list, pendingIntent);
+        mWidgetManager.updateAppWidget(mWidgetId, views);
     }
 }
