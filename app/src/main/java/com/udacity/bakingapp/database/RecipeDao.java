@@ -16,7 +16,7 @@ import java.util.List;
 public interface RecipeDao {
 
     @Query("SELECT * FROM recipe ORDER BY id")
-    LiveData<List<Recipe>> loadAllRecipes();
+    Recipe loadLastSeenRecipe();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRecipe(Recipe recipe);
@@ -26,6 +26,9 @@ public interface RecipeDao {
 
     @Delete
     void deleteRecipe(Recipe recipe);
+
+    @Query("DELETE FROM recipe")
+    void deleteAllRecipes();
 
     @Query("SELECT * FROM recipe WHERE id = :id")
     LiveData<Recipe> loadRecipeById(int id);

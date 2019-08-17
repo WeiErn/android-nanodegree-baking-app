@@ -128,14 +128,14 @@ public class RecipeMasterGridFragment extends Fragment implements
     }
 
     private void setupRecipes() {
-        final LiveData<List<Recipe>> recipes = mDb.recipeDao().loadAllRecipes();
-        recipes.observe(this, new Observer<List<Recipe>>() {
-            @Override
-            public void onChanged(@Nullable List<Recipe> recipes) {
-                mRecipes = recipes;
-                mRecipeMasterGridAdapter.setRecipeData(mRecipes);
-            }
-        });
+//        final LiveData<List<Recipe>> recipes = mDb.recipeDao().loadAllRecipes();
+//        recipes.observe(this, new Observer<List<Recipe>>() {
+//            @Override
+//            public void onChanged(@Nullable List<Recipe> recipes) {
+//                mRecipes = recipes;
+//                mRecipeMasterGridAdapter.setRecipeData(mRecipes);
+//            }
+//        });
     }
 
     @Override
