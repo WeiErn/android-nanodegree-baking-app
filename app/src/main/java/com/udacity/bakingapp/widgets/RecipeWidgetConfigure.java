@@ -43,7 +43,7 @@
 //        setResult(RESULT_CANCELED);
 //
 //        // Set the view layout resource to use.
-//        setContentView(R.layout.recipe_widget_configure);
+//        setContentView(R.layout.widget_recipe_configure);
 //
 //        // Load all recipes
 //        loadAllRecipes();

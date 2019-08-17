@@ -30,7 +30,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/recipe_widget_provider_info" />
+                android:resource="@xml/widget_recipe_provider_info" />
         </receiver>
 
         <activity

@@ -38,13 +38,13 @@ public class LoadLastSeenRecipeTask extends AsyncTask<Void, Void, Recipe> {
         Intent intent = new Intent(mContext, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
-        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_provider);
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_recipe_provider);
         views.setTextViewText(R.id.widget_recipe_name, recipe.getName());
 
         List<Ingredient> ingredientList = recipe.getIngredientList();
 
         for (Ingredient ingredient : ingredientList) {
-            RemoteViews ingredientView = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_ingredient_item);
+            RemoteViews ingredientView = new RemoteViews(mContext.getPackageName(), R.layout.widget_recipe_ingredient_item);
             ingredientView.setTextViewText(R.id.widget_ingredient_item,
                     ingredient.getQuantity() + " "
                             + ingredient.getMeasurement() + " "
