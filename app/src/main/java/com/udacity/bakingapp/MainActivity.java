@@ -15,12 +15,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         Bundle bundle = new Bundle();
-        bundle.putInt("recipe_layout", R.id.list_recipes);
+        int containerId = 0;
+
+        if (findViewById(R.id.recipe_master_list_fragment_container) != null) {
+            bundle.putInt("recipe_layout", R.id.recipe_master_list_fragment_container);
+            containerId = R.id.recipe_master_list_fragment_container;
+        } else if (findViewById(R.id.recipe_master_grid_fragment_container) != null) {
+            bundle.putInt("recipe_layout", R.id.recipe_master_grid_fragment_container);
+            containerId = R.id.recipe_master_grid_fragment_container;
+        }
 
         RecipeMasterGridFragment recipeMasterGridFragment = new RecipeMasterGridFragment();
         recipeMasterGridFragment.setArguments(bundle);
         fragmentManager.beginTransaction()
-                .add(R.id.recipe_master_grid_fragment_container, recipeMasterGridFragment)
+                .add(containerId, recipeMasterGridFragment)
                 .commit();
     }
 }

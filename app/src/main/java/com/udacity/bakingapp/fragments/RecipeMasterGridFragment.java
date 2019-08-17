@@ -92,23 +92,27 @@ public class RecipeMasterGridFragment extends Fragment implements
             mRecipeLayoutId = getArguments().getInt(ARG_RECIPE_LAYOUT_ID);
         }
         mDb = AppDatabase.getInstance(getActivity());
-        setupRecipes();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRecipeLayoutId = getArguments().getInt(ARG_RECIPE_LAYOUT_ID);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_master_grid, container, false);
         mErrorMessageDisplay = view.findViewById(R.id.error_message_display);
         mNoInternetMessageDisplay = view.findViewById(R.id.no_internet_connection_message_display);
         mLoadingIndicator = view.findViewById(R.id.pb_loading_indicator);
+        mRecyclerView = view.findViewById(R.id.list_recipes);
 
-        if (mRecipeLayoutId == R.id.list_recipes) {
-            mRecyclerView = view.findViewById(R.id.list_recipes);
+        if (mRecipeLayoutId == R.id.recipe_master_list_fragment_container) {
             mLayoutManager = new GridLayoutManager(
                     getActivity(), 1, RecyclerView.VERTICAL, false
+            );
+        } else if (mRecipeLayoutId == R.id.recipe_master_grid_fragment_container) {
+            mLayoutManager = new GridLayoutManager(
+                    getActivity(), 3, RecyclerView.VERTICAL, false
             );
         }
 
@@ -117,7 +121,6 @@ public class RecipeMasterGridFragment extends Fragment implements
         mRecipeMasterGridAdapter = new RecipeMasterGridAdapter(this);
         mRecyclerView.setAdapter(mRecipeMasterGridAdapter);
 
-
         if (!isOnline(getActivity())) {
             showNoInternetConnectionMessage();
         } else {
@@ -125,17 +128,6 @@ public class RecipeMasterGridFragment extends Fragment implements
         }
 
         return view;
-    }
-
-    private void setupRecipes() {
-//        final LiveData<List<Recipe>> recipes = mDb.recipeDao().loadAllRecipes();
-//        recipes.observe(this, new Observer<List<Recipe>>() {
-//            @Override
-//            public void onChanged(@Nullable List<Recipe> recipes) {
-//                mRecipes = recipes;
-//                mRecipeMasterGridAdapter.setRecipeData(mRecipes);
-//            }
-//        });
     }
 
     @Override

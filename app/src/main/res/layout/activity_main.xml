@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
     
     <FrameLayout
-        android:id="@+id/recipe_master_grid_fragment_container"
+        android:id="@+id/recipe_master_list_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

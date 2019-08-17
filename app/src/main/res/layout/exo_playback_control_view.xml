@@ -16,23 +16,23 @@
         android:orientation="horizontal">
 
         <ImageButton android:id="@id/exo_rew"
-            android:tint="#000000"
+            android:tint="#FFFFFF"
             style="@style/ExoMediaButton.Rewind"/>
 
         <ImageButton android:id="@id/exo_repeat_toggle"
-            android:tint="#000000"
+            android:tint="#FFFFFF"
             style="@style/ExoMediaButton"/>
 
         <ImageButton android:id="@id/exo_play"
-            android:tint="#000000"
+            android:tint="#FFFFFF"
             style="@style/ExoMediaButton.Play"/>
 
         <ImageButton android:id="@id/exo_pause"
-            android:tint="#000000"
+            android:tint="#FFFFFF"
             style="@style/ExoMediaButton.Pause"/>
 
         <ImageButton android:id="@id/exo_ffwd"
-            android:tint="#000000"
+            android:tint="#FFFFFF"
             style="@style/ExoMediaButton.FastForward"/>
 
     </LinearLayout>
@@ -52,7 +52,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:includeFontPadding="false"
-            android:textColor="#000000"/>
+            android:textColor="#FFFFFFFF"/>
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
             android:id="@id/exo_progress"
@@ -61,9 +61,9 @@
             android:layout_height="16dp"
             app:bar_height="1dp"
             app:played_color="@color/colorAccent"
-            app:unplayed_color="#FFFFFFFF"
-            app:buffered_color="#FFFFFFFF"
-            app:scrubber_color="#000000"/>
+            app:unplayed_color="#FFFFFF"
+            app:buffered_color="#FFFFFF"
+            app:scrubber_color="#FF0000"/>
 
         <TextView android:id="@id/exo_duration"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:includeFontPadding="false"
-            android:textColor="#000000"/>
+            android:textColor="#FFFFFFFF"/>
 
     </LinearLayout>
 
