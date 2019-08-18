@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.data.Ingredient;
 import com.udacity.bakingapp.data.Step;
+import com.udacity.bakingapp.fragments.MediaPlayerFragment;
 
 import java.util.List;
 
@@ -21,9 +22,11 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
 
     private String mRecipeName;
     private List<Step> mStepData;
+//    private MediaPlayerFragment mMediaPlayerFragment;
     private final StepAdapterOnClickHandler mClickHandler;
 
     public interface StepAdapterOnClickHandler {
+//        void onStepClick(Step step, String recipeName, MediaPlayerFragment mediaPlayerFragment);
         void onStepClick(Step step, String recipeName);
     }
 
@@ -60,6 +63,7 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
                 if (null != mClickHandler) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+//                    mClickHandler.onStepClick(stepSelected, mRecipeName, mMediaPlayerFragment);
                     mClickHandler.onStepClick(stepSelected, mRecipeName);
                 }
             }
@@ -81,4 +85,9 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
         mRecipeName = recipeName;
         notifyDataSetChanged();
     }
+
+//    public void setMediaPlayerFragment(MediaPlayerFragment mediaPlayerFragment) {
+//        mMediaPlayerFragment = mediaPlayerFragment;
+//        notifyDataSetChanged();
+//    }
 }

@@ -3,6 +3,7 @@ package com.udacity.bakingapp.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class StepMasterListFragment extends Fragment implements
     private StepMasterListAdapter mStepMasterListAdapter;
     private RecyclerView mStepRecyclerView;
     private TextView mIngredientListTextView;
+    private MediaPlayerFragment mMediaPlayerFragment;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -104,13 +106,22 @@ public class StepMasterListFragment extends Fragment implements
     }
 
     @Override
+//    public void onStepClick(Step step, String recipeName, MediaPlayerFragment mediaPlayerFragment) {
     public void onStepClick(Step step, String recipeName) {
-        Context context = getActivity();
-        Class destinationClass = StepActivity.class;
-        Intent intentToStartStepActivity = new Intent(context, destinationClass);
-        intentToStartStepActivity.putExtra(getString(R.string.intent_extra_step), step);
-        intentToStartStepActivity.putExtra(getString(R.string.recipe_name), recipeName);
-        startActivity(intentToStartStepActivity);
+        if (mMediaPlayerFragment != null) {
+            mMediaPlayerFragment.setStepDescriptionView(step.getDescription());
+            String videoUrl = step.getVideoUrl();
+            if (!videoUrl.isEmpty()) {
+                mMediaPlayerFragment.setVideoUriString(videoUrl);
+            }
+        } else {
+            Context context = getActivity();
+            Class destinationClass = StepActivity.class;
+            Intent intentToStartStepActivity = new Intent(context, destinationClass);
+            intentToStartStepActivity.putExtra(getString(R.string.intent_extra_step), step);
+            intentToStartStepActivity.putExtra(getString(R.string.recipe_name), recipeName);
+            startActivity(intentToStartStepActivity);
+        }
     }
 
     public void setIngredientList(List<Ingredient> ingredientList) {
@@ -131,6 +142,10 @@ public class StepMasterListFragment extends Fragment implements
     public void setupRecipeDataInAdapter(List<Step> stepData, String recipeName) {
         mStepMasterListAdapter.setStepData(stepData);
         mStepMasterListAdapter.setRecipeName(recipeName);
+    }
+
+    public void setMediaPlayerFragment(MediaPlayerFragment mediaPlayerFragment) {
+        mMediaPlayerFragment = mediaPlayerFragment;
     }
 
     /**

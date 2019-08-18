@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
     
     <fragment
-        android:id="@+id/step_video_player_fragment"
+        android:id="@+id/step_media_player_fragment"
         android:name="com.udacity.bakingapp.fragments.MediaPlayerFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
