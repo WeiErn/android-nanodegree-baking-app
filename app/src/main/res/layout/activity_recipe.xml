@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".RecipeActivity">
 
-    <!--<ListView-->
-        <!--android:id="@+id/ingredient_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:layout_marginRight="8dp"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"></ListView>-->
-
-
     <fragment
         android:id="@+id/step_master_list_fragment"
         android:name="com.udacity.bakingapp.fragments.StepMasterListFragment"
@@ -24,6 +13,6 @@
         android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        ></fragment>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

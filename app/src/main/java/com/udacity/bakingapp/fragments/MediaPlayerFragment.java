@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -56,6 +57,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     private String mVideoUriString;
     private SimpleExoPlayer mPlayer;
     private PlayerView mPlayerView;
+    private TextView mStepDescriptionView;
     private boolean mPlayWhenReady;
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
 
@@ -110,6 +112,10 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     public void setVideoUriString(String videoUriString) {
         mVideoUriString = videoUriString;
+    }
+
+    public void setStepDescriptionView(String stepDescription) {
+        mStepDescriptionView.setText(stepDescription);
     }
 
     @Override
@@ -179,6 +185,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_media_player, container, false);
         mPlayerView = view.findViewById(R.id.player_view);
+        mStepDescriptionView = view.findViewById(R.id.step_description);
 
         return view;
     }
@@ -310,6 +317,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
             mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
         } else {
             mediaSource = new ConcatenatingMediaSource();
+            mPlayerView.setVisibility(View.GONE);
         }
         mPlayer.prepare(mediaSource, true, false);
     }

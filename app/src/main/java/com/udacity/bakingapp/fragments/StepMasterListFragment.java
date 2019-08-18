@@ -116,9 +116,14 @@ public class StepMasterListFragment extends Fragment implements
     public void setIngredientList(List<Ingredient> ingredientList) {
         // Set up TextView displaying list of ingredients
         StringBuffer stringBuffer = new StringBuffer();
-        for (Ingredient ingredient : ingredientList) {
+        int ingredientListSize = ingredientList.size();
+        for (int i = 0; i < ingredientListSize; i++) {
+            Ingredient ingredient = ingredientList.get(i);
             stringBuffer.append("\u2022 " + ingredient.getQuantity() + " " +
-                    ingredient.getMeasurement() + " " + ingredient.getIngredient() + "\n");
+                    ingredient.getMeasurement() + " " + ingredient.getIngredient());
+            if (i < ingredientListSize - 1) {
+                stringBuffer.append("\n");
+            }
         }
         mIngredientListTextView.setText(stringBuffer.toString());
     }
