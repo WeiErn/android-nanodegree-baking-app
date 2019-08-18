@@ -37,13 +37,6 @@ public class RecipeActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupIngredientList(Recipe recipe) {
-//        List<Ingredient> ingredientList = recipe.getIngredientList();
-//        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this, R.layout.list_view_row_item, ingredientList);
-//        ListView ingredientListView = findViewById(R.id.ingredient_list);
-//        ingredientListView.setAdapter(ingredientListAdapter);
-    }
-
     protected void setupRecipe(Recipe recipe) {
         List<Ingredient> ingredientList = recipe.getIngredientList();
         List<Step> stepList = recipe.getStepList();
