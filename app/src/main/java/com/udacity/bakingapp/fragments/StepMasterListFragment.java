@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.StepActivity;
 import com.udacity.bakingapp.adapters.StepMasterListAdapter;
+import com.udacity.bakingapp.data.Ingredient;
 import com.udacity.bakingapp.data.Step;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class StepMasterListFragment extends Fragment implements
     private int mColumnCount = 1;
     private StepMasterListAdapter mStepMasterListAdapter;
     private RecyclerView mStepRecyclerView;
+    private TextView mIngredientListTextView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +66,7 @@ public class StepMasterListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_master_list, container, false);
+        mIngredientListTextView = view.findViewById(R.id.ingredient_list);
         mStepRecyclerView = view.findViewById(R.id.list_steps);
 
         // Set the adapter
@@ -77,6 +81,7 @@ public class StepMasterListFragment extends Fragment implements
             mStepMasterListAdapter = new StepMasterListAdapter(this);
             mStepRecyclerView.setAdapter(mStepMasterListAdapter);
         }
+
         return view;
     }
 
@@ -108,7 +113,17 @@ public class StepMasterListFragment extends Fragment implements
         startActivity(intentToStartStepActivity);
     }
 
-    public void setStepDataAndRecipeNameInAdapter(List<Step> stepData, String recipeName) {
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        // Set up TextView displaying list of ingredients
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Ingredient ingredient : ingredientList) {
+            stringBuffer.append("\u2022 " + ingredient.getQuantity() + " " +
+                    ingredient.getMeasurement() + " " + ingredient.getIngredient() + "\n");
+        }
+        mIngredientListTextView.setText(stringBuffer.toString());
+    }
+
+    public void setupRecipeDataInAdapter(List<Step> stepData, String recipeName) {
         mStepMasterListAdapter.setStepData(stepData);
         mStepMasterListAdapter.setRecipeName(recipeName);
     }

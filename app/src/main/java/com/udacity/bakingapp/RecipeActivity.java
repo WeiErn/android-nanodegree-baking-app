@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListView;
 
-import com.udacity.bakingapp.adapters.IngredientListAdapter;
 import com.udacity.bakingapp.data.Ingredient;
 import com.udacity.bakingapp.data.Recipe;
 import com.udacity.bakingapp.data.Step;
@@ -32,8 +30,7 @@ public class RecipeActivity extends AppCompatActivity {
 
             getSupportActionBar().setTitle(recipe.getName());
 
-            setupIngredientList(recipe);
-            setupStepList(recipe);
+            setupRecipe(recipe);
 
             // empty database and insert new recipe
             addRecipeToDb(recipe);
@@ -47,12 +44,15 @@ public class RecipeActivity extends AppCompatActivity {
 //        ingredientListView.setAdapter(ingredientListAdapter);
     }
 
-    protected void setupStepList(Recipe recipe) {
+    protected void setupRecipe(Recipe recipe) {
+        List<Ingredient> ingredientList = recipe.getIngredientList();
         List<Step> stepList = recipe.getStepList();
         String recipeName = recipe.getName();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         StepMasterListFragment stepMasterListFragment = (StepMasterListFragment) fragmentManager.findFragmentById(R.id.step_master_list_fragment);
-        stepMasterListFragment.setStepDataAndRecipeNameInAdapter(stepList, recipeName);
+        stepMasterListFragment.setIngredientList(ingredientList);
+        stepMasterListFragment.setupRecipeDataInAdapter(stepList, recipeName);
     }
 
     protected void addRecipeToDb(final Recipe recipe) {

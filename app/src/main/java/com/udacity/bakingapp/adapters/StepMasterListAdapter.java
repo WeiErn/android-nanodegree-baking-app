@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.udacity.bakingapp.R;
+import com.udacity.bakingapp.data.Ingredient;
 import com.udacity.bakingapp.data.Step;
 
 import java.util.List;
