@@ -18,23 +18,21 @@ import java.util.List;
  */
 public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAdapter.StepAdapterViewHolder> {
 
+    private String mRecipeName;
     private List<Step> mStepData;
     private final StepAdapterOnClickHandler mClickHandler;
 
     public interface StepAdapterOnClickHandler {
-        void onStepClick(Step step);
+        void onStepClick(Step step, String recipeName);
     }
 
     public StepMasterListAdapter(StepAdapterOnClickHandler clickHandler) {
-//    public StepMasterListAdapter(List<Step> steps, StepAdapterOnClickHandler clickHandler) {
-//        mStepData = steps;
         mClickHandler = clickHandler;
     }
 
     public class StepAdapterViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mStepName;
-        public Step mStep;
 
         public StepAdapterViewHolder(View view) {
             super(view);
@@ -61,7 +59,7 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
                 if (null != mClickHandler) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mClickHandler.onStepClick(stepSelected);
+                    mClickHandler.onStepClick(stepSelected, mRecipeName);
                 }
             }
         });
@@ -78,4 +76,8 @@ public class StepMasterListAdapter extends RecyclerView.Adapter<StepMasterListAd
         notifyDataSetChanged();
     }
 
+    public void setRecipeName(String recipeName) {
+        mRecipeName = recipeName;
+        notifyDataSetChanged();
+    }
 }

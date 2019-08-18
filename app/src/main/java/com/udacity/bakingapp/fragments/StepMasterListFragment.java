@@ -31,8 +31,8 @@ public class StepMasterListFragment extends Fragment implements
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-//    private StepAdapterOnClickHandler mClickHandler;
     private StepMasterListAdapter mStepMasterListAdapter;
+    private RecyclerView mStepRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,18 +63,19 @@ public class StepMasterListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_master_list, container, false);
+        mStepRecyclerView = view.findViewById(R.id.list_steps);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        if (mStepRecyclerView instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mStepRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mStepRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+            mStepRecyclerView.setHasFixedSize(true);
             mStepMasterListAdapter = new StepMasterListAdapter(this);
-            recyclerView.setAdapter(mStepMasterListAdapter);
+            mStepRecyclerView.setAdapter(mStepMasterListAdapter);
         }
         return view;
     }
@@ -98,16 +99,18 @@ public class StepMasterListFragment extends Fragment implements
     }
 
     @Override
-    public void onStepClick(Step step) {
+    public void onStepClick(Step step, String recipeName) {
         Context context = getActivity();
         Class destinationClass = StepActivity.class;
         Intent intentToStartStepActivity = new Intent(context, destinationClass);
         intentToStartStepActivity.putExtra(getString(R.string.intent_extra_step), step);
+        intentToStartStepActivity.putExtra(getString(R.string.recipe_name), recipeName);
         startActivity(intentToStartStepActivity);
     }
 
-    public void setStepAdapterData(List<Step> stepData) {
+    public void setStepDataAndRecipeNameInAdapter(List<Step> stepData, String recipeName) {
         mStepMasterListAdapter.setStepData(stepData);
+        mStepMasterListAdapter.setRecipeName(recipeName);
     }
 
     /**

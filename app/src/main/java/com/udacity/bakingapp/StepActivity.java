@@ -16,8 +16,12 @@ public class StepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_step);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(getString(R.string.intent_extra_step))) {
+        if (intent.hasExtra(getString(R.string.intent_extra_step)) && intent.hasExtra(getString(R.string.recipe_name))) {
             Step step = intent.getExtras().getParcelable(getString(R.string.intent_extra_step));
+            String recipeName = intent.getExtras().getString(getString(R.string.recipe_name));
+
+            getSupportActionBar().setTitle(recipeName);
+
             String videoUrl = step.getVideoUrl();
 
             if (!videoUrl.isEmpty()) {

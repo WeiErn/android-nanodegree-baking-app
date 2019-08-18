@@ -16,4 +16,5 @@
     <string name="appwidget_configure_instructions">This text will be shown before the date in our example widget.</string>
     <string name="appwidget_prefix_default">Oh hai</string>
     <string name="recipe_endpoint">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
+    <string name="recipe_name">recipeName</string>
 </resources>

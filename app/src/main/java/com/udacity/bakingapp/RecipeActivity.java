@@ -30,6 +30,8 @@ public class RecipeActivity extends AppCompatActivity {
         if (intent.hasExtra(getString(R.string.intent_extra_recipe))) {
             Recipe recipe = intent.getExtras().getParcelable(getString(R.string.intent_extra_recipe));
 
+            getSupportActionBar().setTitle(recipe.getName());
+
             setupIngredientList(recipe);
             setupStepList(recipe);
 
@@ -39,17 +41,18 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     protected void setupIngredientList(Recipe recipe) {
-        List<Ingredient> ingredientList = recipe.getIngredientList();
-        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this, R.layout.list_view_row_item, ingredientList);
-        ListView ingredientListView = findViewById(R.id.ingredient_list);
-        ingredientListView.setAdapter(ingredientListAdapter);
+//        List<Ingredient> ingredientList = recipe.getIngredientList();
+//        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this, R.layout.list_view_row_item, ingredientList);
+//        ListView ingredientListView = findViewById(R.id.ingredient_list);
+//        ingredientListView.setAdapter(ingredientListAdapter);
     }
 
     protected void setupStepList(Recipe recipe) {
         List<Step> stepList = recipe.getStepList();
+        String recipeName = recipe.getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         StepMasterListFragment stepMasterListFragment = (StepMasterListFragment) fragmentManager.findFragmentById(R.id.step_master_list_fragment);
-        stepMasterListFragment.setStepAdapterData(stepList);
+        stepMasterListFragment.setStepDataAndRecipeNameInAdapter(stepList, recipeName);
     }
 
     protected void addRecipeToDb(final Recipe recipe) {
