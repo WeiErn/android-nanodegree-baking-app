@@ -38,6 +38,9 @@ public class StepMasterListFragment extends Fragment implements
     private RecyclerView mStepRecyclerView;
     private TextView mIngredientListTextView;
     private MediaPlayerFragment mMediaPlayerFragment;
+    private boolean mTwoPane;
+    private String mStepDescription;
+    private String mVideoUrl;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,8 +62,15 @@ public class StepMasterListFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        if (savedInstanceState != null) {
+//            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            if (savedInstanceState.getString("stepDescription") != null) {
+                mStepDescription = savedInstanceState.getString("stepDescription");
+            }
+            if (savedInstanceState.getString("videoUrl") != null) {
+                mVideoUrl = savedInstanceState.getString("videoUrl");
+            }
+            mTwoPane = savedInstanceState.getBoolean("twoPane");
         }
     }
 
@@ -106,13 +116,25 @@ public class StepMasterListFragment extends Fragment implements
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mStepDescription != null) {
+            outState.putString("stepDescription", mStepDescription);
+        }
+        if (mVideoUrl != null) {
+            outState.putString("videoUrl", mVideoUrl);
+        }
+        outState.putBoolean("twoPane", mTwoPane);
+    }
+
+    @Override
 //    public void onStepClick(Step step, String recipeName, MediaPlayerFragment mediaPlayerFragment) {
     public void onStepClick(Step step, String recipeName) {
         if (mMediaPlayerFragment != null) {
-            boolean twoPane = true;
-            mMediaPlayerFragment.setStepDescriptionView(step.getDescription());
-            String videoUrl = step.getVideoUrl();
-            mMediaPlayerFragment.setVideoUriString(videoUrl, twoPane);
+            mStepDescription = step.getDescription();
+            mVideoUrl = step.getVideoUrl();
+            mMediaPlayerFragment.setStepDescriptionView(mStepDescription);
+            mMediaPlayerFragment.setVideoUriString(mVideoUrl, mTwoPane);
         } else {
             Context context = getActivity();
             Class destinationClass = StepActivity.class;
@@ -143,8 +165,10 @@ public class StepMasterListFragment extends Fragment implements
         mStepMasterListAdapter.setRecipeName(recipeName);
     }
 
-    public void setMediaPlayerFragment(MediaPlayerFragment mediaPlayerFragment) {
+    public void setMediaPlayerFragment(MediaPlayerFragment mediaPlayerFragment, boolean twoPane) {
         mMediaPlayerFragment = mediaPlayerFragment;
+        mTwoPane = twoPane;
+        mMediaPlayerFragment.setVideoUriString(mVideoUrl, mTwoPane);
     }
 
     /**

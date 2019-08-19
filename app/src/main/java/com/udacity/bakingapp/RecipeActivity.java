@@ -19,6 +19,8 @@ public class RecipeActivity extends AppCompatActivity {
 
     private AppDatabase mDb;
     private boolean mTwoPane;
+    private StepMasterListFragment mStepMasterListFragment;
+    private MediaPlayerFragment mMediaPlayerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,13 @@ public class RecipeActivity extends AppCompatActivity {
         String recipeName = recipe.getName();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        StepMasterListFragment stepMasterListFragment = (StepMasterListFragment) fragmentManager.findFragmentById(R.id.step_master_list_fragment);
-        stepMasterListFragment.setIngredientList(ingredientList);
-        stepMasterListFragment.setupRecipeDataInAdapter(stepList, recipeName);
+        mStepMasterListFragment = (StepMasterListFragment) fragmentManager.findFragmentById(R.id.step_master_list_fragment);
+        mStepMasterListFragment.setIngredientList(ingredientList);
+        mStepMasterListFragment.setupRecipeDataInAdapter(stepList, recipeName);
 
         if (mTwoPane) {
-            stepMasterListFragment.setMediaPlayerFragment((MediaPlayerFragment) fragmentManager.findFragmentById(R.id.step_media_player_fragment));
+            mMediaPlayerFragment = (MediaPlayerFragment) fragmentManager.findFragmentById(R.id.step_media_player_fragment);
+            mStepMasterListFragment.setMediaPlayerFragment(mMediaPlayerFragment, mTwoPane);
         }
     }
 
@@ -71,4 +74,15 @@ public class RecipeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, "mediaPlayerFragment", mMediaPlayerFragment);
+    }
+
+//    @Override
+//    public void onRestoreInstanceState(Bundle inState) {
+//        mMediaPlayerFragment = getFragmentManager().getFragment(inState, "mediaPlayerFragment");
+//    }
 }
