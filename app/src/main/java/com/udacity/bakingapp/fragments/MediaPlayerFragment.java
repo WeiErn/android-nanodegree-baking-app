@@ -60,6 +60,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     private TextView mStepDescriptionView;
     private boolean mPlayWhenReady;
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    private boolean mTwoPane;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,8 +111,10 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
         }
     }
 
-    public void setVideoUriString(String videoUriString) {
+    public void setVideoUriString(String videoUriString, boolean twoPane) {
         mVideoUriString = videoUriString;
+        mTwoPane = twoPane;
+        initializePlayer();
     }
 
     public void setStepDescriptionView(String stepDescription) {
@@ -127,7 +130,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     public void handleDeviceOrientation() {
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && !mTwoPane) {
             hideSystemUiFullScreen();
         } else {
             showSystemUi();
@@ -313,11 +316,12 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
         handleDeviceOrientation();
 
         MediaSource mediaSource;
-        if (mVideoUriString != null) {
-            mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
-        } else {
+        if (mVideoUriString == null || mVideoUriString.isEmpty()) {
             mediaSource = new ConcatenatingMediaSource();
             mPlayerView.setVisibility(View.GONE);
+        } else {
+            mediaSource = buildMediaSource(Uri.parse(mVideoUriString));
+            mPlayerView.setVisibility(View.VISIBLE);
         }
         mPlayer.prepare(mediaSource, true, false);
     }

@@ -40,7 +40,6 @@ public class RecipeActivity extends AppCompatActivity {
 
             setupRecipe(recipe);
 
-
             // empty database and insert new recipe
             addRecipeToDb(recipe);
         }

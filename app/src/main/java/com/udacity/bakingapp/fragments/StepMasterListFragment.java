@@ -109,11 +109,10 @@ public class StepMasterListFragment extends Fragment implements
 //    public void onStepClick(Step step, String recipeName, MediaPlayerFragment mediaPlayerFragment) {
     public void onStepClick(Step step, String recipeName) {
         if (mMediaPlayerFragment != null) {
+            boolean twoPane = true;
             mMediaPlayerFragment.setStepDescriptionView(step.getDescription());
             String videoUrl = step.getVideoUrl();
-            if (!videoUrl.isEmpty()) {
-                mMediaPlayerFragment.setVideoUriString(videoUrl);
-            }
+            mMediaPlayerFragment.setVideoUriString(videoUrl, twoPane);
         } else {
             Context context = getActivity();
             Class destinationClass = StepActivity.class;

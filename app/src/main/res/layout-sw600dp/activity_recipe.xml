@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/step_media_player_fragment"
         android:name="com.udacity.bakingapp.fragments.MediaPlayerFragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/divider"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -30,7 +30,8 @@ public class StepActivity extends AppCompatActivity {
 
             String videoUrl = step.getVideoUrl();
             if (!videoUrl.isEmpty()) {
-                mediaPlayerFragment.setVideoUriString(videoUrl);
+                boolean twoPane = false;
+                mediaPlayerFragment.setVideoUriString(videoUrl, twoPane);
             }
         }
     }
