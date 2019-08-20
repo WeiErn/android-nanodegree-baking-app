@@ -169,6 +169,7 @@ public class StepMasterListFragment extends Fragment implements
         mMediaPlayerFragment = mediaPlayerFragment;
         mTwoPane = twoPane;
         mMediaPlayerFragment.setVideoUriString(mVideoUrl, mTwoPane);
+        mMediaPlayerFragment.setStepDescriptionView(mStepDescription);
     }
 
     /**
