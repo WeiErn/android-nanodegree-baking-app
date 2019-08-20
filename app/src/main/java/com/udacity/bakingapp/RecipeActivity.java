@@ -78,7 +78,9 @@ public class RecipeActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mediaPlayerFragment", mMediaPlayerFragment);
+        if (mTwoPane) {
+            getSupportFragmentManager().putFragment(outState, "mediaPlayerFragment", mMediaPlayerFragment);
+        }
     }
 
 //    @Override
