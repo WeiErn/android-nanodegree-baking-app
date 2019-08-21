@@ -80,6 +80,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onStart() {
+        mPlayer.setPlayWhenReady(true);
         super.onStart();
         if (Util.SDK_INT > 23) {
             initializePlayer();
@@ -88,6 +89,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onResume() {
+        mPlayer.setPlayWhenReady(true);
         super.onResume();
 //        showSystemUi();
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
@@ -97,6 +99,12 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onPause() {
+        mPlayer.setPlayWhenReady(false);
+
+        mPlaybackPosition = mPlayer.getCurrentPosition();
+        mPlayWhenReady = mPlayer.getPlayWhenReady();
+        mCurrentWindow = mPlayer.getCurrentWindowIndex();
+
         super.onPause();
         if (Util.SDK_INT <= 23) {
             releasePlayer();
@@ -105,10 +113,24 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onStop() {
+        mPlayer.setPlayWhenReady(false);
+
+        mPlaybackPosition = mPlayer.getCurrentPosition();
+        mPlayWhenReady = mPlayer.getPlayWhenReady();
+        mCurrentWindow = mPlayer.getCurrentWindowIndex();
+
         super.onStop();
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("playbackPosition", mPlaybackPosition);
+        outState.putInt("currentWindow", mCurrentWindow);
+        outState.putBoolean("playWhenReady", mPlayWhenReady);
     }
 
     public void setVideoUriString(String videoUriString, boolean twoPane) {
@@ -175,6 +197,11 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
         final TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
                 new int[]{android.R.attr.actionBarSize});
         mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+        if (savedInstanceState != null) {
+            mPlaybackPosition = savedInstanceState.getLong("playbackPosition");
+            mCurrentWindow = savedInstanceState.getInt("currentWindow");
+            mPlayWhenReady = savedInstanceState.getBoolean("playWhenReady");
+        }
         styledAttributes.recycle();
 
         if (getArguments() != null) {
