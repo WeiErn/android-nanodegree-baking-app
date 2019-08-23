@@ -80,7 +80,6 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onStart() {
-        mPlayer.setPlayWhenReady(true);
         super.onStart();
         if (Util.SDK_INT > 23) {
             initializePlayer();
@@ -89,9 +88,7 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onResume() {
-        mPlayer.setPlayWhenReady(true);
         super.onResume();
-//        showSystemUi();
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
             initializePlayer();
         }
@@ -99,35 +96,30 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     @Override
     public void onPause() {
-        mPlayer.setPlayWhenReady(false);
-
-        mPlaybackPosition = mPlayer.getCurrentPosition();
-        mPlayWhenReady = mPlayer.getPlayWhenReady();
-        mCurrentWindow = mPlayer.getCurrentWindowIndex();
-
+        updateStartPosition();
         super.onPause();
         if (Util.SDK_INT <= 23) {
+            if (mPlayerView != null) {
+            }
             releasePlayer();
         }
     }
 
     @Override
     public void onStop() {
-        mPlayer.setPlayWhenReady(false);
-
-        mPlaybackPosition = mPlayer.getCurrentPosition();
-        mPlayWhenReady = mPlayer.getPlayWhenReady();
-        mCurrentWindow = mPlayer.getCurrentWindowIndex();
-
+        updateStartPosition();
         super.onStop();
         if (Util.SDK_INT > 23) {
-            releasePlayer();
+            if (mPlayerView != null) {
+            }
         }
+        releasePlayer();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        updateStartPosition();
         outState.putLong("playbackPosition", mPlaybackPosition);
         outState.putInt("currentWindow", mCurrentWindow);
         outState.putBoolean("playWhenReady", mPlayWhenReady);
@@ -185,9 +177,9 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
     // TODO: Rename and change types and number of parameters
     public static MediaPlayerFragment newInstance(String param1) {
         MediaPlayerFragment fragment = new MediaPlayerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -204,9 +196,9 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
         }
         styledAttributes.recycle();
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//        }
     }
 
     @Override
@@ -334,10 +326,6 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
                     new DefaultRenderersFactory(getContext()),
                     new DefaultTrackSelector(),
                     new DefaultLoadControl());
-            mPlayerView.requestFocus();
-            mPlayerView.setPlayer(mPlayer);
-            mPlayer.setPlayWhenReady(mPlayWhenReady);
-            mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
         }
 
         handleDeviceOrientation();
@@ -351,6 +339,11 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
             mPlayerView.setVisibility(View.VISIBLE);
         }
         mPlayer.prepare(mediaSource, true, false);
+
+        mPlayerView.requestFocus();
+        mPlayerView.setPlayer(mPlayer);
+        mPlayer.setPlayWhenReady(mPlayWhenReady);
+        mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -374,11 +367,17 @@ public class MediaPlayerFragment extends Fragment implements Player.EventListene
 
     private void releasePlayer() {
         if (mPlayer != null) {
+            updateStartPosition();
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+    private void updateStartPosition() {
+        if (mPlayer != null) {
             mPlaybackPosition = mPlayer.getCurrentPosition();
             mCurrentWindow = mPlayer.getCurrentWindowIndex();
             mPlayWhenReady = mPlayer.getPlayWhenReady();
-            mPlayer.release();
-            mPlayer = null;
         }
     }
 }
