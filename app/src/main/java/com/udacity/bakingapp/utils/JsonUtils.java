@@ -10,27 +10,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class JsonUtils {
-
-    public static String getJsonStringFromAsset(Context context, String jsonFile) {
-        String json = null;
-        try {
-            InputStream inputStream = context.getAssets().open(jsonFile);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
 
     public static List getRecipesFromJson(String jsonStr)
             throws JSONException {
