@@ -18,4 +18,5 @@
     <string name="recipe_endpoint">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
     <string name="recipe_name">recipeName</string>
     <string name="heading_ingredients">Ingredients</string>
+    <string name="widget_select_a_recipe">Select a recipe</string>
 </resources>

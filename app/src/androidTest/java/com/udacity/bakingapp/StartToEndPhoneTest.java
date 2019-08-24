@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class StartToEndTest {
+public class StartToEndPhoneTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =
@@ -94,6 +94,29 @@ public class StartToEndTest {
                                 1),
                         isDisplayed()));
         stepDescriptionTextView.check(matches(withText("Recipe Introduction")));
+    }
+
+    @Test
+    public void IsPresentIngredientsTest() {
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(R.id.recipe_name), withText("Nutella Pie"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.list_recipes),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatTextView.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.ingredient_header), withText("INGREDIENTS"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.card_ingredient_list),
+                                        0),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText("INGREDIENTS")));
     }
 
     private static Matcher<View> childAtPosition(

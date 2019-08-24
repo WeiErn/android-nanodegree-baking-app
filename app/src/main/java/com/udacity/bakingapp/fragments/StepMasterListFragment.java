@@ -31,7 +31,7 @@ public class StepMasterListFragment extends Fragment implements
         StepMasterListAdapter.StepAdapterOnClickHandler {
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
+
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private StepMasterListAdapter mStepMasterListAdapter;
@@ -53,9 +53,6 @@ public class StepMasterListFragment extends Fragment implements
     @SuppressWarnings("unused")
     public static StepMasterListFragment newInstance(int columnCount) {
         StepMasterListFragment fragment = new StepMasterListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -63,7 +60,6 @@ public class StepMasterListFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-//            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             if (savedInstanceState.getString("stepDescription") != null) {
                 mStepDescription = savedInstanceState.getString("stepDescription");
             }
@@ -101,18 +97,11 @@ public class StepMasterListFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof StepAdapterOnClickHandler) {
-//            mClickHandler = (StepAdapterOnClickHandler) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        mClickHandler = null;
     }
 
     @Override
@@ -128,7 +117,6 @@ public class StepMasterListFragment extends Fragment implements
     }
 
     @Override
-//    public void onStepClick(Step step, String recipeName, MediaPlayerFragment mediaPlayerFragment) {
     public void onStepClick(Step step, String recipeName) {
         if (mMediaPlayerFragment != null) {
             mStepDescription = step.getDescription();
@@ -171,19 +159,4 @@ public class StepMasterListFragment extends Fragment implements
         mMediaPlayerFragment.setVideoUriString(mVideoUrl, mTwoPane);
         mMediaPlayerFragment.setStepDescriptionView(mStepDescription);
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface StepAdapterOnClickHandler {
-//        // TODO: Update argument type and name
-//        void onListFragmentInteraction(Step step);
-//    }
 }
